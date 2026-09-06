@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { truncateWithEllipsis } from './stringUtils.js';
+import { truncateWithEllipsis, capitalizeFirst } from './stringUtils.js';
 
 test('kuerzt einen kurzen String nicht, wenn er in maxLength passt', () => {
   const input = 'Hallo Welt';
@@ -55,4 +55,36 @@ test('Invariante: Ergebnislaenge ist niemals groesser als maxLength', () => {
       `maxLength=${maxLength} -> Ergebnislaenge ${result.length} ueberschreitet das Budget`
     );
   }
+});
+
+test('schreibt den ersten Buchstaben gross und laesst den Rest unveraendert', () => {
+  assert.equal(capitalizeFirst('hallo welt'), 'Hallo welt');
+  assert.equal(capitalizeFirst('alex'), 'Alex');
+});
+
+test('laesst den Rest auch dann unveraendert, wenn er gross ist', () => {
+  assert.equal(capitalizeFirst('hALLO'), 'HALLO');
+  assert.equal(capitalizeFirst('aBcDeF'), 'ABcDeF');
+});
+
+test('laesst einen bereits gross beginnenden String unveraendert', () => {
+  assert.equal(capitalizeFirst('Hallo'), 'Hallo');
+  assert.equal(capitalizeFirst('ALEX'), 'ALEX');
+});
+
+test('leerer String bleibt leer', () => {
+  assert.equal(capitalizeFirst(''), '');
+});
+
+test('wirft einen TypeError, wenn text kein String ist', () => {
+  assert.throws(() => capitalizeFirst(42), TypeError);
+  assert.throws(() => capitalizeFirst(null), TypeError);
+  assert.throws(() => capitalizeFirst(undefined), TypeError);
+  assert.throws(() => capitalizeFirst({}), TypeError);
+  assert.throws(() => capitalizeFirst(['a']), TypeError);
+});
+
+test('laesst Strings mit Nicht-Buchstaben am Anfang unveraendert', () => {
+  assert.equal(capitalizeFirst('123 abc'), '123 abc');
+  assert.equal(capitalizeFirst('  führendes Leerzeichen'), '  führendes Leerzeichen');
 });
