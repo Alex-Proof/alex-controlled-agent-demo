@@ -88,3 +88,52 @@ export function truncateWithEllipsis(text, maxLength) {
   // b/c) Kuerzen und Ellipsis exakt ins Budget legen.
   return text.slice(0, maxLength - ELLIPSIS_LENGTH) + ELLIPSIS;
 }
+
+/**
+ * capitalizeFirst -- schreibt den ersten Buchstaben eines Strings gross und
+ * laesst den Rest unveraendert.
+ *
+ * Design-Entscheidungen im Detail:
+ *
+ * 1) "Rest unveraendert": Anders als ein naiver Title-Case-Helper werden die
+ *    restlichen Zeichen NICHT kleingeschrieben. Die Funktion uebernimmt nur
+ *    den ersten Buchstaben in die Grossschreibung und laesst den Text dahinter
+ *    exakt so stehen, wie er uebergeben wurde -- "hALLO" wird also zu "HALLO",
+ *    nicht zu "Hallo". Damit ist die Funktion verlustfrei fuer die Gross-/
+ *    Kleinschreibung des Rests und eignet sich als unueberraschender Baustein.
+ *
+ * 2) Umsetzung: Das erste Zeichen wird ueber text.charAt(0) geholt (statt
+ *    text[0]), weil charAt(0) auch bei leerem String sauber '' liefert und
+ *    keine undefined-Luecken erzeugt. Angehaengt wird text.slice(1) -- der
+ *    gesamte Rest ab Index 1.
+ *
+ * 3) Unicode-Bewusstheit (analog zu truncateWithEllipsis): Die Funktion
+ *    arbeitet auf UTF-16-Code-Units. Die haeufigsten Faelle (inkl. Umlaute
+ *    wie "ä" -> "Ä") werden korrekt abgedeckt. Surrogatpaare (z.B. Emoji am
+ *    Stringanfang) oder der "ß"-Sonderfall (toUpperCase liefert dort "SS",
+ *    was das Ergebnis verlaengert) sind eine bewusste, dokumentierte
+ *    Abwaegung zugunsten von Einfachheit.
+ *
+ * Randfaelle:
+ *   - leerer String ('') -> '' (es gibt keinen Buchstaben zum Grossschreiben)
+ *   - erstes Zeichen ist kein Buchstabe (Zahl, Leerzeichen, Sonderzeichen):
+ *     toUpperCase aendert daran nichts, der Text bleibt unveraendert
+ *
+ * Validierung (fail-fast, bewusst strikt): Ist text kein String, wird ein
+ * TypeError geworfen -- Programmierfehler am Aufrufer werden sofort sichtbar
+ * statt stillschweigend falsche Ergebnisse zu liefern. Dieses Verhalten ist
+ * identisch zu truncateWithEllipsis, damit beide Funktionen dieser Datei ein
+ * einheitliches, vorhersehbares Fehlerverhalten aufweisen.
+ */
+export function capitalizeFirst(text) {
+  if (typeof text !== 'string') {
+    throw new TypeError(`text muss ein String sein, erhalten: ${typeof text}`);
+  }
+
+  // Leerer String: kein Buchstabe vorhanden, unveraendert '' zurueckgeben.
+  if (text.length === 0) {
+    return '';
+  }
+
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}
