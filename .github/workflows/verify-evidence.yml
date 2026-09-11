@@ -65,7 +65,7 @@ jobs:
 
       - name: Verify bundle
         id: verify
-        uses: bewusstki-hue/alex-mrtb-verify-bundle/.github/actions/verify@main
+        uses: Alex-Proof/alex-mrtb-verify-bundle/.github/actions/verify@main
         with:
           bundle-json: ${{ steps.extract.outputs.bundle_json }}
 
@@ -91,7 +91,7 @@ jobs:
               output: {
                 title: titleByOutcome[outcome] || 'Evidence Bundle check',
                 summary: reason
-                  ? `Unabhängig gegen den Well-known-Trust-Anchor geprüft (bewusstki-hue/alex-mrtb-verify-bundle). Ergebnis: **${outcome}** (${reason}).`
-                  : `Unabhängig gegen den Well-known-Trust-Anchor geprüft (bewusstki-hue/alex-mrtb-verify-bundle). Ergebnis: **${outcome}**.`,
+                  ? `Unabhängig gegen den Well-known-Trust-Anchor geprüft (Alex-Proof/alex-mrtb-verify-bundle). Ergebnis: **${outcome}** (${reason}).`
+                  : `Unabhängig gegen den Well-known-Trust-Anchor geprüft (Alex-Proof/alex-mrtb-verify-bundle). Ergebnis: **${outcome}**.`,
               },
             });
