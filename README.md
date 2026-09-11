@@ -33,7 +33,7 @@ eine echte Job-Queue wäre eine Datenbank-Transaktion oder ein verteilter Lock n
 
 ## Tests
 
-1 Test ist absichtlich rot: `discount.js` ist falsch, der bestehende Test ist korrekt.
+Alle Tests laufen erfolgreich — inklusive `discount.js`.
 
 ```bash
 npm test
