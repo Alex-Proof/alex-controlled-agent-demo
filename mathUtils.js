@@ -52,3 +52,48 @@ export function clampValue(value, min, max) {
   }
   return Math.min(Math.max(value, min), max);
 }
+
+/**
+ * isPrime(n) -- reine Funktion: prueft, ob eine Zahl eine Primzahl ist.
+ *
+ * DESIGN-ENTSCHEIDUNGEN UND RANDFAELLE:
+ *
+ * 1. Primzahlen sind per Definition natuerliche Zahlen groesser als 1, die nur durch
+ *    1 und sich selbst teilbar sind. Deshalb liefert isPrime(n) fuer n < 2 immer false
+ *    -- das deckt 0, 1 sowie alle negativen Zahlen ab, ohne sie einzeln pruefen zu
+ *    muessen.
+ *
+ * 2. Reiner Bool-Vertrag (keine Exceptions): Alles, was keine Primzahl sein kann,
+ *    ergibt false statt zu werfen. Dazu gehoeren auch Nicht-Ganzzahlen (z.B. 2.5),
+ *    NaN und Infinity -- sie koennen per Definition keine Primzahlen sein, und ein
+ *    stilles false ist hier informativer als ein Fehler. Auch eine Typpruefung per
+ *    typeof ist daher nicht noetig, weil Number.isInteger(n) fuer alle Nicht-Zahlen
+ *    bereits false liefert.
+ *
+ * 3. Effizienz: Nach dem Ausschluss von n < 2 und geraden Zahlen (ausser 2 selbst)
+ *    muss nur bis sqrt(n) in 2er-Schritten getestet werden. Ein Teiler groesser als
+ *    sqrt(n) haette immer einen komplementaeren Teiler kleiner als sqrt(n), daher ist
+ *    jede Teilbarkeit oberhalb der Wurzel bereits abgedeckt.
+ *
+ * @param {number} n Die zu pruefende Zahl.
+ * @returns {boolean} true, wenn n eine Primzahl ist (>= 2 und nur durch 1 und sich
+ *   selbst teilbar), sonst false (fuer 0, 1, negative Zahlen, zusammengesetzte Zahlen
+ *   sowie Nicht-Ganzzahlen).
+ */
+export function isPrime(n) {
+  if (typeof n !== 'number' || !Number.isInteger(n) || n < 2) {
+    return false;
+  }
+  if (n === 2) {
+    return true;
+  }
+  if (n % 2 === 0) {
+    return false;
+  }
+  for (let i = 3; i * i <= n; i += 2) {
+    if (n % i === 0) {
+      return false;
+    }
+  }
+  return true;
+}
