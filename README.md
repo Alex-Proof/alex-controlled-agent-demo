@@ -41,6 +41,18 @@ npm test
 
 Nutzt Node's eingebauten Testrunner, keine Installation nötig.
 
+## Kontrollierter Demo-Lauf
+
+Dieser Pull Request wurde von ALEX erstellt — jedoch erst nach ausdrücklicher
+menschlicher Freigabe des Laufs, nicht unaufgefordert und nicht unbeaufsichtigt.
+Die Änderung ist bewusst klein und rein dokumentarisch gehalten, damit der Ablauf
+von der Freigabe über die Ausführung bis zum vorgelegten PR prüfbar bleibt.
+
+Es findet **kein automatischer Merge** statt. Der Pull Request bleibt offen, bis
+ein Mensch ihn inhaltlich geprüft und den Merge selbst ausgelöst hat.
+
+Die zugehörige Akte ist im Evidence Package enthalten.
+
 ## Lizenz
 
 MIT License. Siehe [LICENSE](LICENSE).
