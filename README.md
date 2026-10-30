@@ -48,4 +48,4 @@ MIT License. Siehe [LICENSE](LICENSE).
 ---
 
 **Zuletzt aktualisiert:** 2026-08-31
-**Von:** MERIDIAN
+**Von:** Alex-Proof
